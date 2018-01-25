@@ -2,6 +2,8 @@
   text-align: center;
 }
 
+/*
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
@@ -26,3 +28,39 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+*/
+
+#wholePage {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+#leftSide {
+  display: flex;
+  flex-direction: column;
+  border: black 1px solid;
+  width: 40%;
+  background-color: lightgray;
+  color: darkblue;
+}
+
+#leftSide h1 {
+  color: black;
+}
+
+.roomNumber, .roomName {
+  text-align: left;
+  padding-left: 10px;
+}
+
+
+
+
+
+
+
+
+
+

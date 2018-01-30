@@ -71,8 +71,8 @@
   background-color: darkgreen;
 }
 
-#newRoomForm {
-  display: block;
+.formNoShow {
+  display: none;
 }
 
 

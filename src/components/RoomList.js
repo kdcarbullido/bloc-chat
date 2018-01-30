@@ -31,22 +31,41 @@ class RoomList extends Component {
     createRoom(e) {
         console.log('in createRoom', this.state.newRoomName, this.state.rooms.length, this.roomsRef);
         e.preventDefault();
-        if (!this.state.newRoomName) { return };
+        if (!this.state.newRoomName) {
+            return
+        }
+        ;
         let nextRoomKey = (this.state.rooms.length + 1).toString();
         console.log(nextRoomKey);
-        this.roomsRef.push( {nextRoomKey, name: this.state.newRoomName}
-        );
-    };
+        this.roomsRef.push({nextRoomKey, name: this.state.newRoomName});
+        document.getElementById('newRoomEntry').value = '';
+        this.setState({newRoomName: ''});
+    }
 
+    newRoomCancel(e) {
+        console.log("in newRoomCancel");
+        let form = document.getElementById('newRoomForm').classList;
+        form.add("formNoShow");
+        document.getElementById('newRoomEntry').value = '';
+        this.setState({newRoomName: ''});
+    }
+
+    newRoomButton () {
+        console.log("in newRoomButton");
+        let form = document.getElementById('newRoomForm').classList;
+        form.remove('formNoShow');
+        document.getElementById('newRoomEntry').value = '';
+    }
 
 
     render () {
 //        console.log("in Roomlist render function");
         return (
             <div>
-                <button type="button" id='newRoomButton'>New Room</button>
-                <form id='newRoomForm' onSubmit={ (e) => this.createRoom(e)}>
-                    <input type="text" size="28" placeholder=" Enter new chat room name here . . ." value={ this.state.newRoomName}  onChange={ (e) => this.handleChange(e)} />
+                <button type="button" id='newRoomButton' onClick={()=> this.newRoomButton()}>New Room</button>
+                <form id='newRoomForm' className="formNoShow" onSubmit={ (e) => this.createRoom(e)}>
+                    <input id='newRoomEntry' type="text" size="28" placeholder=" Enter new chat room name here . . ." value={ this.state.newRoomName}  onChange={ (e) => this.handleChange(e)} />
+                    <button type="button" id='newRoomCancelButton' onClick={(e) => this.newRoomCancel(e)}>Cancel</button>
                     <input type="submit" />
                 </form>
                 <table>

@@ -41,7 +41,7 @@
   display: flex;
   flex-direction: column;
   border: black 1px solid;
-  width: 40%;
+  min-width: 35%;
   background-color: lightgray;
   color: darkblue;
 }
@@ -56,7 +56,24 @@
 }
 
 
+#newRoomButton {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
 
+#newRoomButton:hover {
+  background-color: darkgreen;
+}
+
+#newRoomForm {
+  display: block;
+}
 
 
 

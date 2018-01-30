@@ -71,6 +71,13 @@
   background-color: darkgreen;
 }
 
+.submitButton:focus,
+.submitButton:hover,
+#newRoomCancelButton:focus,
+#newRoomCancelButton:hover {
+  background-color: darkgrey;
+  color: white;
+}
 .formNoShow {
   display: none;
 }

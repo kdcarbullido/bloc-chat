@@ -24,26 +24,23 @@ class RoomList extends Component {
 
 
     handleChange(e) {
-        console.log('in handleChange', e.target.value)
+//        console.log('in handleChange', e.target.value)
         this.setState({ newRoomName: e.target.value});
     };
 
     createRoom(e) {
-        console.log('in createRoom', this.state.newRoomName, this.state.rooms.length, this.roomsRef);
+//        console.log('in createRoom', this.state.newRoomName, this.state.rooms.length, this.roomsRef);
         e.preventDefault();
         if (!this.state.newRoomName) {
-            return
-        }
-        ;
-        let nextRoomKey = (this.state.rooms.length + 1).toString();
-        console.log(nextRoomKey);
-        this.roomsRef.push({nextRoomKey, name: this.state.newRoomName});
+            return;
+        };
+        this.roomsRef.push({name: this.state.newRoomName});
         document.getElementById('newRoomEntry').value = '';
         this.setState({newRoomName: ''});
     }
 
     newRoomCancel(e) {
-        console.log("in newRoomCancel");
+//        console.log("in newRoomCancel");
         let form = document.getElementById('newRoomForm').classList;
         form.add("formNoShow");
         document.getElementById('newRoomEntry').value = '';
@@ -51,10 +48,11 @@ class RoomList extends Component {
     }
 
     newRoomButton () {
-        console.log("in newRoomButton");
+//        console.log("in newRoomButton");
         let form = document.getElementById('newRoomForm').classList;
         form.remove('formNoShow');
         document.getElementById('newRoomEntry').value = '';
+        document.getElementById('newRoomEntry').focus();
     }
 
 
@@ -65,15 +63,14 @@ class RoomList extends Component {
                 <button type="button" id='newRoomButton' onClick={()=> this.newRoomButton()}>New Room</button>
                 <form id='newRoomForm' className="formNoShow" onSubmit={ (e) => this.createRoom(e)}>
                     <input id='newRoomEntry' type="text" size="28" placeholder=" Enter new chat room name here . . ." value={ this.state.newRoomName}  onChange={ (e) => this.handleChange(e)} />
+                    <input type="submit" className="submitButton" value="Create Room"/>
                     <button type="button" id='newRoomCancelButton' onClick={(e) => this.newRoomCancel(e)}>Cancel</button>
-                    <input type="submit" />
                 </form>
                 <table>
                     <tbody>
                     {
                         this.state.rooms.map( (room, index) =>
                             <tr className="roomRow" key={index}>
-                                <td className="roomNumber">Room #{room.key}</td>
                                 <td className="roomName">{room.name}</td>
                             </tr>
                         )

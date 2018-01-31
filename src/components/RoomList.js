@@ -6,7 +6,8 @@ class RoomList extends Component {
         super (props);
         this.state = {
             rooms: [],
-            newRoomName: ''
+            newRoomName: '',
+            formVisible: false
         };
         this.roomsRef = this.props.firebase.database().ref('rooms');
     };
@@ -35,24 +36,21 @@ class RoomList extends Component {
             return;
         };
         this.roomsRef.push({name: this.state.newRoomName});
-        document.getElementById('newRoomEntry').value = '';
         this.setState({newRoomName: ''});
+        this.setState({formVisible: true});
+        this.textInput.focus();
     }
 
     newRoomCancel(e) {
 //        console.log("in newRoomCancel");
-        let form = document.getElementById('newRoomForm').classList;
-        form.add("formNoShow");
-        document.getElementById('newRoomEntry').value = '';
+        this.setState({formVisible: false});
         this.setState({newRoomName: ''});
     }
 
-    newRoomButton () {
+    newRoomButton (e) {
 //        console.log("in newRoomButton");
-        let form = document.getElementById('newRoomForm').classList;
-        form.remove('formNoShow');
-        document.getElementById('newRoomEntry').value = '';
-        document.getElementById('newRoomEntry').focus();
+        this.setState({formVisible : true});
+//        this.textInput.focus();
     }
 
 
@@ -60,12 +58,24 @@ class RoomList extends Component {
 //        console.log("in Roomlist render function");
         return (
             <div>
-                <button type="button" id='newRoomButton' onClick={()=> this.newRoomButton()}>New Room</button>
-                <form id='newRoomForm' className="formNoShow" onSubmit={ (e) => this.createRoom(e)}>
-                    <input id='newRoomEntry' type="text" size="28" placeholder=" Enter new chat room name here . . ." value={ this.state.newRoomName}  onChange={ (e) => this.handleChange(e)} />
-                    <input type="submit" className="submitButton" value="Create Room"/>
-                    <button type="button" id='newRoomCancelButton' onClick={(e) => this.newRoomCancel(e)}>Cancel</button>
-                </form>
+
+                <button type="button" id='newRoomButton' onClick={(e)=> this.newRoomButton(e)}>New Room</button>
+                {this.state.formVisible &&
+                    <form onSubmit={(e) => this.createRoom(e)}>
+                        <input
+                            type="text"
+                            size="28"
+                            placeholder=" Enter new chat room name here . . ."
+                            value={this.state.newRoomName}
+                            onChange={(e) => this.handleChange(e)}
+                            ref={(input) => {this.textInput = input;} }
+                            autoFocus
+                        />
+                        <input type="submit" className="submitButton" value="Create Room"/>
+                        <button type="button" id='newRoomCancelButton' onClick={(e) => this.newRoomCancel(e)}>Cancel</button>
+                    </form>
+                }
+
                 <table>
                     <tbody>
                     {

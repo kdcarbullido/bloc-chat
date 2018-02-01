@@ -18,7 +18,6 @@ class RoomList extends Component {
 //            this.setState({ rooms: this.state.rooms.concat( snapshot.valueOf())});
             const room = snapshot.val();
             room.key = snapshot.key;
-//            console.log(room.key, room.name);
             this.setState({ rooms: this.state.rooms.concat( room )})
         });
     };
@@ -33,9 +32,15 @@ class RoomList extends Component {
 //        console.log('in createRoom', this.state.newRoomName, this.state.rooms.length, this.roomsRef);
         e.preventDefault();
         if (!this.state.newRoomName) {
+            this.textInput.focus();
             return;
         };
-        this.roomsRef.push({name: this.state.newRoomName});
+//        console.log(this.state.rooms);
+        if (this.state.rooms.filter(room => room.name === this.state.newRoomName).length === 0) {
+            this.roomsRef.push({name: this.state.newRoomName});
+        } else {
+            alert("A chatroom with this name already exists");
+        }
         this.setState({newRoomName: ''});
         this.setState({formVisible: true});
         this.textInput.focus();
@@ -50,7 +55,6 @@ class RoomList extends Component {
     newRoomButton (e) {
 //        console.log("in newRoomButton");
         this.setState({formVisible : true});
-//        this.textInput.focus();
     }
 
 

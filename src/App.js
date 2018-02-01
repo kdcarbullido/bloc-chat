@@ -24,7 +24,7 @@ class App extends Component {
       <div className="App">
         <div id="wholePage">
             <div id="leftSide">
-                <h1>Bloc Chat Rooms</h1>
+                <h1>Bloc Chat</h1>
                 <RoomList
                     firebase={firebase}
                 />

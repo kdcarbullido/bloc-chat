@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  text-align: left;
 }
 
 /*
@@ -41,15 +41,19 @@
   display: flex;
   flex-direction: column;
   border: black 1px solid;
-  min-width: 35%;
+  min-width: 20%;
   background-color: lightgray;
   color: darkblue;
 }
 
 #leftSide h1 {
   color: black;
+  padding-left: 6px;
 }
 
+#newRoomButton {
+  margin-bottom: 4px;
+}
 .roomNumber, .roomName {
   text-align: left;
   padding-left: 10px;
@@ -78,10 +82,6 @@
   background-color: darkgrey;
   color: white;
 }
-.formNoShow {
-  display: none;
-}
-
 
 
 

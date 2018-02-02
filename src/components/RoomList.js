@@ -10,14 +10,17 @@ class RoomList extends Component {
             formVisible: false
         };
         this.roomsRef = this.props.firebase.database().ref('rooms');
+        this.activeRoom = this.props.activeRoom;
+        console.log(this.props.activeRoom)
     };
 
     componentDidMount() {
         this.roomsRef.on('child_added', snapshot => {
-//            console.log(snapshot, this.roomsRef);
+            console.log('snapshot: ', snapshot, 'this.roomsRef: ', this.roomsRef);
 //            this.setState({ rooms: this.state.rooms.concat( snapshot.valueOf())});
             const room = snapshot.val();
             room.key = snapshot.key;
+            console.log('room: ', room, 'room.key: ', room.key)
             this.setState({ rooms: this.state.rooms.concat( room )})
         });
     };
@@ -41,20 +44,36 @@ class RoomList extends Component {
         } else {
             alert("A chatroom with this name already exists");
         }
-        this.setState({newRoomName: ''});
-        this.setState({formVisible: true});
+        this.setState(
+            {
+                newRoomName: '',
+                formVisible: true
+            }
+        );
+
         this.textInput.focus();
     }
 
     newRoomCancel(e) {
 //        console.log("in newRoomCancel");
-        this.setState({formVisible: false});
-        this.setState({newRoomName: ''});
+        this.setState(
+            {
+                forVisible: false,
+                newRoomName: ''
+            }
+        )
     }
 
     newRoomButton (e) {
 //        console.log("in newRoomButton");
         this.setState({formVisible : true});
+    }
+
+
+    styleRoomRow (roomx) {
+//        console.log('room.name', roomx, 'activeRoom', this.props.activeRoom);
+        if (roomx === this.props.activeRoom) return "roomRow selected";
+        return "roomRow";
     }
 
 
@@ -84,8 +103,10 @@ class RoomList extends Component {
                     <tbody>
                     {
                         this.state.rooms.map( (room, index) =>
-                            <tr className="roomRow" key={index}>
+                            <tr className={this.styleRoomRow(room.name)} key={index}  onClick={(e) => this.props.handleRoomSelect(e)}>
                                 <td className="roomName">{room.name}</td>
+                                <td>{room.key}</td>
+
                             </tr>
                         )
                     }

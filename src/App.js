@@ -3,6 +3,7 @@ import * as firebase from 'firebase';
 import logo from './logo.svg';
 import './App.css';
 import RoomList from './components/RoomList';
+import MessageList from './components/MessageList'
 
 // <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
 // Initialize Firebase
@@ -19,6 +20,22 @@ firebase.initializeApp(config);
 
 
 class App extends Component {
+    constructor (props) {
+        super (props);
+        this.state = {
+            activeRoom: '',
+            activeRoomId: ''
+        }
+    }
+
+    handleRoomSelect (event) {
+//        console.log('in handleRoomSelect e:', e, 'roomName: ', roomName, 'roomKey: ', roomKey);
+        console.log('in handleRoomSelect e.target.value: ', event.target.value);
+
+        this.setState({activeRoom:event.target.value});
+    }
+
+
   render() {
     return (
       <div className="App">
@@ -27,10 +44,21 @@ class App extends Component {
                 <h1>Bloc Chat</h1>
                 <RoomList
                     firebase={firebase}
+                    activeRoom={this.state.activeRoom}
+                    activeRoomId={this.state.activeRoomId}
+                    handleRoomSelect={() => this.handleRoomSelect()}
                 />
             </div>
-            <div id="rightSide">
-            </div>
+            {this.state.activeRoom &&
+                <div id="rightSide">
+                    <h2>{this.state.activeRoom}</h2>
+                    <MessageList
+                        firebase={firebase}
+                        activeRoom={this.state.activeRoom}
+                        activeRoomId={this.state.activeRoomId}
+                    />
+                </div>
+            }
         </div>
       </div>
     )

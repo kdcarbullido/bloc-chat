@@ -10,21 +10,20 @@ class RoomList extends Component {
             formVisible: false
         };
         this.roomsRef = this.props.firebase.database().ref('rooms');
-        this.activeRoom = this.props.activeRoom;
-        console.log(this.props.activeRoom)
+//        this.activeRoom = this.props.activeRoom;
+//        console.log(this.props.activeRoom)
     };
 
     componentDidMount() {
         this.roomsRef.on('child_added', snapshot => {
-            console.log('snapshot: ', snapshot, 'this.roomsRef: ', this.roomsRef);
+//            console.log('snapshot: ', snapshot, 'this.roomsRef: ', this.roomsRef);
 //            this.setState({ rooms: this.state.rooms.concat( snapshot.valueOf())});
             const room = snapshot.val();
             room.key = snapshot.key;
-            console.log('room: ', room, 'room.key: ', room.key)
+//            console.log('room: ', room, 'room.key: ', room.key)
             this.setState({ rooms: this.state.rooms.concat( room )})
         });
     };
-
 
     handleChange(e) {
 //        console.log('in handleChange', e.target.value)
@@ -50,7 +49,6 @@ class RoomList extends Component {
                 formVisible: true
             }
         );
-
         this.textInput.focus();
     }
 
@@ -58,7 +56,7 @@ class RoomList extends Component {
 //        console.log("in newRoomCancel");
         this.setState(
             {
-                forVisible: false,
+                formVisible: false,
                 newRoomName: ''
             }
         )
@@ -103,10 +101,8 @@ class RoomList extends Component {
                     <tbody>
                     {
                         this.state.rooms.map( (room, index) =>
-                            <tr className={this.styleRoomRow(room.name)} key={index}  onClick={(e) => this.props.handleRoomSelect(e)}>
+                            <tr className={this.styleRoomRow(room.name)} key={index}  onClick={(e) => this.props.handleRoomSelect(room)}>
                                 <td className="roomName">{room.name}</td>
-                                <td>{room.key}</td>
-
                             </tr>
                         )
                     }

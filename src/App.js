@@ -17,8 +17,6 @@ var config = {
 };
 firebase.initializeApp(config);
 
-
-
 class App extends Component {
     constructor (props) {
         super (props);
@@ -28,11 +26,9 @@ class App extends Component {
         }
     }
 
-    handleRoomSelect (event) {
-//        console.log('in handleRoomSelect e:', e, 'roomName: ', roomName, 'roomKey: ', roomKey);
-        console.log('in handleRoomSelect e.target.value: ', event.target.value);
-
-        this.setState({activeRoom:event.target.value});
+    handleRoomSelect (room) {
+//        console.log('in handleRoomSelect', 'room:', room);
+        this.setState({activeRoom:room.name, activeRoomId:room.key});
     }
 
 
@@ -45,8 +41,7 @@ class App extends Component {
                 <RoomList
                     firebase={firebase}
                     activeRoom={this.state.activeRoom}
-                    activeRoomId={this.state.activeRoomId}
-                    handleRoomSelect={() => this.handleRoomSelect()}
+                    handleRoomSelect={(room) => this.handleRoomSelect(room)}
                 />
             </div>
             {this.state.activeRoom &&

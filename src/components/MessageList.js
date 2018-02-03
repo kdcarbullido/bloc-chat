@@ -36,6 +36,12 @@ class MessageList extends Component {
             this.textInput.focus();
             return;
         };
+        this.messagesRef.push({
+           content: this.state.newMessage,
+           roomId: this.props.activeRoomId,
+           sentAt: this.props.firebase.database.ServerValue.TIMESTAMP,
+           username: "ClarkKent"
+        });
         this.setState({newMessage: ''});
         this.textInput.focus();
     }
@@ -45,28 +51,24 @@ class MessageList extends Component {
         this.setState({newMessage: ''});
     }
 
-    render () {
-        console.log('this.state.messages: ', this.state.messages, 'this.props.activeRoomId: ', this.props.activeRoomId);
 
+    render () {
         return (
             <div>
-
-
-                <table>
-                    <tbody>
                     {
                         this.state.messages.filter( (msg, index) => msg.roomId === this.props.activeRoomId)
                         .map( (msg, index) =>
-                        <tr className="messageRow" key={index}>
-                        <td className="message">{msg.username}</td>
-                        <td className="message">{msg.sentAt}</td>
-                        <td className="message">{msg.content}</td>
-
-                        </tr>
+                            <div key={index}>
+                                <div className="messageRow">
+                                    <div className="msgLine1">
+                                        <div className="userName">{msg.username}</div>
+                                        <div className="timeStamp">{new Date(msg.sentAt).toLocaleString()}</div>
+                                    </div>
+                                    <div className="content">{msg.content}</div>
+                                </div>
+                            </div>
                         )
                     }
-                    </tbody>
-                </table>
 
                 <form onSubmit={(e) => this.createMessage(e)}>
                     <input
@@ -84,7 +86,6 @@ class MessageList extends Component {
 
             </div>
         )
-//        console.log("in MessageList render function");
     }
 
 }

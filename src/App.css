@@ -94,5 +94,25 @@
   background-color: snow;
 }
 
+.messageRow {
+  padding: 8px 3px;
+}
 
+.msgLine1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 
+.userName {
+  font-weight: bold;
+  text-align: left;
+}
+
+.timeStamp {
+  text-align: right;
+}
+
+.content {
+  display: block;
+}

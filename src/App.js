@@ -3,7 +3,8 @@ import * as firebase from 'firebase';
 import logo from './logo.svg';
 import './App.css';
 import RoomList from './components/RoomList';
-import MessageList from './components/MessageList'
+import MessageList from './components/MessageList';
+import User from './components/User';
 
 // <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
 // Initialize Firebase
@@ -22,7 +23,10 @@ class App extends Component {
         super (props);
         this.state = {
             activeRoom: '',
-            activeRoomId: ''
+            activeRoomId: '',
+            displayName: "Guest",
+            user: {},
+            signedIn: false
         }
     }
 
@@ -31,13 +35,37 @@ class App extends Component {
         this.setState({activeRoom:room.name, activeRoomId:room.key});
     }
 
+    setUser (user) {
+        if (user) {
+            this.setState({
+                user: user,
+                displayName: user.displayName,
+                signedIn: true
+            });
+        } else {
+            this.setState({
+                user: {},
+                displayName: "Guest",
+                signedIn: false
+            })
+        }
+    }
+
 
   render() {
     return (
       <div className="App">
-        <div id="wholePage">
+          <header>
+              <User
+                  firebase={firebase}
+                  setUser={(user) => this.setUser(user)}
+                  displayName={this.state.displayName}
+                  signedIn={this.state.signedIn}
+              />
+          </header>
+          <div id="wholePage">
+
             <div id="leftSide">
-                <h1>Bloc Chat</h1>
                 <RoomList
                     firebase={firebase}
                     activeRoom={this.state.activeRoom}

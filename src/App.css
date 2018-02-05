@@ -37,6 +37,23 @@
   width: 100%;
 }
 
+#header {
+    display: flex;
+    flex-direction: row;
+    background-color: black;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#header h1 {
+    color: white;
+}
+
+#signOnDisplayName {
+    color: white;
+    padding: 8px;
+}
+
 #leftSide {
   display: flex;
   flex-direction: column;
@@ -46,28 +63,24 @@
   color: darkblue;
 }
 
-#leftSide h1 {
+#leftSideTitle {
   color: black;
   padding-left: 6px;
 }
 
-#newRoomButton {
-  margin-bottom: 4px;
-}
 .roomName {
-  text-align: left;
-  padding-left: 10px;
+    text-align: left;
+    padding-left: 10px;
 }
 
-
 #newRoomButton {
-  background-color: #4CAF50; /* Green */
+    margin-bottom: 4px;
+    background-color: #4CAF50; /* Green */
   border: none;
   color: white;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
   font-size: 16px;
 }
 

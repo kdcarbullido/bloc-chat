@@ -40,7 +40,7 @@ class MessageList extends Component {
            content: this.state.newMessage,
            roomId: this.props.activeRoomId,
            sentAt: this.props.firebase.database.ServerValue.TIMESTAMP,
-           username: "ClarkKent"
+           username: this.props.displayName
         });
         this.setState({newMessage: ''});
         this.textInput.focus();
@@ -51,6 +51,16 @@ class MessageList extends Component {
         this.setState({newMessage: ''});
     }
 
+    setMsgRowClass (index) {
+          if ((index % 2 ) == 0) {
+            return "messageRow shaded"
+          } else {
+            return "messageRow"
+          }
+    }
+
+
+
 
     render () {
         return (
@@ -59,7 +69,7 @@ class MessageList extends Component {
                         this.state.messages.filter( (msg, index) => msg.roomId === this.props.activeRoomId)
                         .map( (msg, index) =>
                             <div key={index}>
-                                <div className="messageRow">
+                                <div className={this.setMsgRowClass(index)}>
                                     <div className="msgLine1">
                                         <div className="userName">{msg.username}</div>
                                         <div className="timeStamp">{new Date(msg.sentAt).toLocaleString()}</div>

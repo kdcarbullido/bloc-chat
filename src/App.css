@@ -108,7 +108,12 @@
 }
 
 .messageRow {
-  padding: 8px 3px;
+    padding: 8px 3px;
+    width: 100%;
+}
+
+.shaded {
+    background: lightgray;
 }
 
 .msgLine1 {

@@ -26,30 +26,40 @@ class App extends Component {
             activeRoomId: '',
             displayName: "Guest",
             user: {},
+            userId: null,
             signedIn: false
         }
     }
 
     handleRoomSelect (room) {
 //        console.log('in handleRoomSelect', 'room:', room);
-        this.setState({activeRoom:room.name, activeRoomId:room.key});
+        if (!room) {
+            this.setState({activeRoom: null, activeRoomId: null});
+        } else {
+            this.setState({activeRoom: room.name, activeRoomId: room.key});
+        }
     }
+
 
     setUser (user) {
         if (user) {
+//            console.log("in setUser uid/email/displayname", user.uid, user.email, user.displayName)
             this.setState({
                 user: user,
+                userId: user.uid,
                 displayName: user.displayName,
                 signedIn: true
             });
         } else {
             this.setState({
                 user: {},
+                userId: null,
                 displayName: "Guest",
                 signedIn: false
             })
         }
     }
+
 
 
   render() {
@@ -70,6 +80,9 @@ class App extends Component {
                     firebase={firebase}
                     activeRoom={this.state.activeRoom}
                     handleRoomSelect={(room) => this.handleRoomSelect(room)}
+                    signedIn={this.state.signedIn}
+                    userId={this.state.userId}
+                    displayName={this.state.displayName}
                 />
             </div>
             {this.state.activeRoom &&

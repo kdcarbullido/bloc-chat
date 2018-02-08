@@ -52,13 +52,24 @@ class MessageList extends Component {
     }
 
     setMsgRowClass (index) {
-          if ((index % 2 ) == 0) {
+          if ((index % 2 ) === 0) {
             return "messageRow shaded"
           } else {
             return "messageRow"
           }
     }
 
+    deleteMessage (msgToDelete) {
+        console.log ("in deleteMessage msg=", msgToDelete);
+        alert ("Deleting this message");
+//  delete from firebase database
+        this.props.firebase.database().ref('messages/' + msgToDelete.key).remove();
+//  filter from messages array and let react redraw
+        let newMessages = this.state.messages.filter( (msg) =>  msg.content !== msgToDelete.content);
+        this.setState ({
+            messages: newMessages
+        });
+    }
 
 
 
@@ -74,7 +85,12 @@ class MessageList extends Component {
                                         <div className="userName">{msg.username}</div>
                                         <div className="timeStamp">{new Date(msg.sentAt).toLocaleString()}</div>
                                     </div>
-                                    <div className="content">{msg.content}</div>
+                                    <div className="content">{msg.content}
+                                        {(msg.username === this.props.displayName) &&
+                                        <button type="button" className='deleteMsgButton'
+                                                onClick={(e) => this.deleteMessage(msg)}>Delete This Message</button>
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         )

@@ -58,7 +58,7 @@
   display: flex;
   flex-direction: column;
   border: black 1px solid;
-  min-width: 20%;
+  min-width: 15%;
   background-color: lightgray;
   color: darkblue;
 }
@@ -72,6 +72,14 @@
     text-align: left;
     padding-left: 10px;
 }
+
+.roomRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+
 
 #newRoomButton {
     margin-bottom: 4px;
@@ -88,15 +96,29 @@
   background-color: darkgreen;
 }
 
+.deleteRoomButton {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.deleteMsgButton {
+    float: right;
+}
 .submitButton:focus,
 .submitButton:hover,
 #newRoomCancelButton:focus,
-#newRoomCancelButton:hover {
+#newRoomCancelButton:hover,
+.deleteRoomButton:focus,
+.deleteRoomButton:hover,
+#newMessageCancelButton:focus,
+#newMessageCancelButton:hover,
+.deleteMsgButton:focus,
+.deleteMsgButton:hover {
   background-color: darkgrey;
   color: white;
 }
 
-.roomRow:hover {
+.roomName:hover {
   font-weight: bolder;
   font-style: italic;
   cursor: pointer;

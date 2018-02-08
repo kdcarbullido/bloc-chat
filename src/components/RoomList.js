@@ -37,9 +37,20 @@ class RoomList extends Component {
             this.textInput.focus();
             return;
         };
-//        console.log(this.state.rooms);
+
+        if (!this.props.signedIn) {
+            alert ("Must sign in to create a room.")
+            this.newRoomCancel();
+            return;
+        };
+
+        console.log("in createRoom", this.props.userId, this.props.displayName);
         if (this.state.rooms.filter(room => room.name === this.state.newRoomName).length === 0) {
-            this.roomsRef.push({name: this.state.newRoomName});
+            this.roomsRef.push({
+                name: this.state.newRoomName,
+                creatorId: this.props.userId,
+                creatorUserName: this.props.displayName
+            });
         } else {
             alert("A chatroom with this name already exists");
         }
@@ -64,52 +75,78 @@ class RoomList extends Component {
 
     newRoomButton (e) {
 //        console.log("in newRoomButton");
-        this.setState({formVisible : true});
+        if (!this.props.signedIn) {
+            alert ("Must be signed in to create new chat rooms");
+        } else {
+            this.setState({formVisible: true});
+        }
     }
 
 
-    styleRoomRow (roomx) {
+    styleRoomName (roomx) {
 //        console.log('room.name', roomx, 'activeRoom', this.props.activeRoom);
-        if (roomx === this.props.activeRoom) return "roomRow selected";
-        return "roomRow";
+        if (roomx === this.props.activeRoom) return "roomName selected";
+        return "roomName";
     }
 
+    deleteRoom (roomToDelete) {
+        console.log("in deleteRoom roomToDelete", roomToDelete, roomToDelete.name);
+//  delete from firebase database
+        this.props.firebase.database().ref('rooms/' + roomToDelete.key).remove();
+//  filter from room array and let react redraw
+        let newRooms = this.state.rooms.filter( (room) =>  room.name !== roomToDelete.name);
+        this.setState ({
+            rooms: newRooms
+        });
+//        this.props.handleRoomSelect(null);  // ideally, should remove display of messages , and delete messages for this room/  research tells me that I should implement Flux or similar to since this is not a parent-child relationship between room and messages components
+
+        //  have not deleted the message that were created in this room, from firebase messages yet.
+
+
+    }
 
     render () {
-//        console.log("in Roomlist render function");
         return (
             <div>
-
                 <button type="button" id='newRoomButton' onClick={(e)=> this.newRoomButton(e)}>New Room</button>
                 {this.state.formVisible &&
-                    <form onSubmit={(e) => this.createRoom(e)}>
-                        <input
-                            type="text"
-                            size="28"
-                            placeholder=" Enter new chat room name here . . ."
-                            value={this.state.newRoomName}
-                            onChange={(e) => this.handleChange(e)}
-                            ref={(input) => {this.textInput = input;} }
-                            autoFocus
-                        />
-                        <input type="submit" className="submitButton" value="Create Room"/>
-                        <button type="button" id='newRoomCancelButton' onClick={(e) => this.newRoomCancel(e)}>Cancel</button>
-                    </form>
+                <form onSubmit={(e) => this.createRoom(e)}>
+                    <input
+                        type="text"
+                        size="28"
+                        placeholder=" Enter new chat room name here . . ."
+                        value={this.state.newRoomName}
+                        onChange={(e) => this.handleChange(e)}
+                        ref={(input) => {this.textInput = input;} }
+                        autoFocus
+                    />
+                    <input type="submit" className="submitButton" value="Create Room"/>
+                    <button type="button" id='newRoomCancelButton' onClick={(e) => this.newRoomCancel(e)}>Cancel</button>
+                </form>
                 }
 
-                <table>
-                    <tbody>
+                <div>
+                    <div>
                     {
                         this.state.rooms.map( (room, index) =>
-                            <tr className={this.styleRoomRow(room.name)} key={index}  onClick={(e) => this.props.handleRoomSelect(room)}>
-                                <td className="roomName">{room.name}</td>
-                            </tr>
+                            <div key={index}>
+                                <div className="roomRow">
+                                    <div className={this.styleRoomName(room.name)}
+                                         onClick={(e) => this.props.handleRoomSelect(room)}>
+                                        {room.name}
+                                    </div>
+                                    {(room.creatorId === this.props.userId) &&
+                                     <button type="button" className='deleteRoomButton' onClick={(e) => this.deleteRoom(room)}>Delete Room</button>
+                                    }
+                                </div>
+                            </div>
                         )
                     }
-                    </tbody>
-                </table>
+                    </div>
+                </div>
             </div>
         )
+//        console.log("in Roomlist render function");
     }
 
 }

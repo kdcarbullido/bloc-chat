@@ -48,7 +48,7 @@ class User extends Component {
 
 
     render() {
-        console.log("in User render function");
+//        console.log("in User render function");
         return (
             <div id="header">
                 <h1 id="title">Bloc Chat</h1>
